@@ -1,0 +1,37 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: aerocompliance-pro-worker
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: aerocompliance-pro-worker
+  template:
+    metadata:
+      labels:
+        app: aerocompliance-pro-worker
+    spec:
+      containers:
+        - name: worker
+          image: aerocompliance_backend:v1.0
+          imagePullPolicy: IfNotPresent
+
+          command:
+            - celery
+            - -A
+            - config
+            - worker
+            - --loglevel=info
+
+          envFrom:
+            - secretRef:
+                name: aerocompliance-pro-secrets
+
+          resources:
+            requests:
+              memory: "512Mi"
+              cpu: "250m"
+            limits:
+              memory: "1Gi"
+              cpu: "500m"

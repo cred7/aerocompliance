@@ -1,0 +1,10 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ include "aerocompliance-pro.fullname" . }}-config
+data:
+  POSTGRES_DB: "{{ .Values.config.postgresDb }}"
+  POSTGRES_USER: "{{ .Values.config.postgresUser }}"
+  POSTGRES_HOST: "{{ include "aerocompliance-pro.fullname" . }}-postgres"
+  POSTGRES_PORT: "{{ .Values.config.postgresPort }}"
+  REDIS_URL: "redis://{{ include "aerocompliance-pro.fullname" . }}-redis:6379/0"

@@ -1,0 +1,60 @@
+apiVersion: apps/v1
+kind: Deployment
+
+metadata:
+  name: aerocompliance-pro-backend
+
+spec:
+  replicas: 3
+
+  selector:
+    matchLabels:
+      app: aerocompliance-pro-backend
+
+  template:
+    metadata:
+      labels:
+        app: aerocompliance-pro-backend
+
+    spec:
+      containers:
+        - name: aerocompliance-pro-backend
+
+          image: aerocompliance_backend:v1.0
+
+          imagePullPolicy: IfNotPresent
+
+          ports:
+            - containerPort: 8000
+
+          envFrom:
+            - configMapRef:
+                name: aerocompliance-pro-config
+
+            - secretRef:
+                name: aerocompliance-pro-secrets
+
+          resources:
+            requests:
+              memory: "512Mi"
+              cpu: "500m"
+
+            limits:
+              memory: "1Gi"
+              cpu: "1000m"
+
+---
+apiVersion: v1
+kind: Service
+
+metadata:
+  name: aerocompliance-pro-backend-service
+
+spec:
+  selector:
+    app: aerocompliance-pro-backend
+
+  ports:
+    - protocol: TCP
+      port: 8000
+      targetPort: 8000

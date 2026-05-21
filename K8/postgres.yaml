@@ -1,0 +1,73 @@
+apiVersion: v1
+kind: Secret
+metadata:
+  name: aerocompliance-pro-postgres-secret
+type: Opaque
+stringData:
+  POSTGRES_DB: aerocompliance
+  POSTGRES_USER: aerocompliance
+  POSTGRES_PASSWORD: aerocompliance
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: aerocompliance-pro-postgres-pvc
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 10Gi
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: aerocompliance-pro-postgres
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: aerocompliance-pro-postgres
+  template:
+    metadata:
+      labels:
+        app: aerocompliance-pro-postgres
+    spec:
+      containers:
+        - name: postgres
+          image: postgres:16
+          ports:
+            - containerPort: 5432
+
+          envFrom:
+            - secretRef:
+                name: aerocompliance-pro-postgres-secret
+
+          volumeMounts:
+            - name: postgres-data
+              mountPath: /var/lib/postgresql/data
+
+          resources:
+            requests:
+              memory: "512Mi"
+              cpu: "250m"
+            limits:
+              memory: "1Gi"
+              cpu: "1"
+
+      volumes:
+        - name: postgres-data
+          persistentVolumeClaim:
+            claimName: aerocompliance-pro-postgres-pvc
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: aerocompliance-pro-postgres
+spec:
+  selector:
+    app: aerocompliance-pro-postgres
+  ports:
+    - port: 5432
+      targetPort: 5432
+  type: ClusterIP

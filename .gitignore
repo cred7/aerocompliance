@@ -1,0 +1,17 @@
+npm
+.env
+dist
+coverage
+node_modules
+*.log
+.DS_Store
+.vscode
+.idea
+*.sublime-project
+*.sublime-workspace
+*.env
+*.env.local
+*.env.development       
+/venv/
+__pycache__/
+*.pyc

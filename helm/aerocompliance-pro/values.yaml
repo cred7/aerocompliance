@@ -1,0 +1,62 @@
+global:
+  imagePullPolicy: IfNotPresent
+postgres:
+  enabled: true
+  image: postgres:16
+  replicaCount: 1
+  resources:
+    requests:
+      memory: 512Mi
+      cpu: 250m
+    limits:
+      memory: 1Gi
+      cpu: 1
+  storage:
+    size: 10Gi
+  secret:
+    db: aerocompliance
+    user: aerocompliance
+    password: aerocompliance
+redis:
+  enabled: true
+  image: redis:7-alpine
+  replicaCount: 1
+  resources:
+    requests:
+      memory: 256Mi
+      cpu: 100m
+    limits:
+      memory: 512Mi
+      cpu: 250m
+backend:
+  enabled: true
+  image: aerocompliance_backend:v1.0
+  replicaCount: 3
+  resources:
+    requests:
+      memory: 512Mi
+      cpu: 500m
+    limits:
+      memory: 1Gi
+      cpu: 1000m
+frontend:
+  enabled: true
+  image: aerocompliance_frontend:v1.0
+  replicaCount: 3
+config:
+  postgresDb: aerocompliance
+  postgresUser: aerocompliance
+  postgresPort: "5432"
+secrets:
+  djangoSecretKey: "django-insecure-he#&#$n_ej7f3+6&0fg&_k44dh4*q$a2y5qvjilb-#u%(_oslz"
+  postgresPassword: aerocompliance
+ingress:
+  enabled: true
+  className: nginx
+  rules:
+    - path: /api
+      service: backend
+      port: 8000
+    - path: /
+      service: frontend
+      port: 3000

@@ -1,0 +1,6 @@
+apiVersion: v2
+name: aerocompliance-pro
+description: Helm chart for Aerocompliance Kubernetes resources
+type: application
+version: 0.1.0
+appVersion: "1.0.0"

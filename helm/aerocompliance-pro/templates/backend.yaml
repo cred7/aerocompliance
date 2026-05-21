@@ -1,0 +1,44 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "aerocompliance-pro.fullname" . }}-backend
+spec:
+  replicas: {{ .Values.backend.replicaCount }}
+  selector:
+    matchLabels:
+      app: {{ include "aerocompliance-pro.fullname" . }}-backend
+  template:
+    metadata:
+      labels:
+        app: {{ include "aerocompliance-pro.fullname" . }}-backend
+    spec:
+      containers:
+        - name: aerocompliance-pro-backend
+          image: "{{ .Values.backend.image }}"
+          imagePullPolicy: {{ .Values.global.imagePullPolicy }}
+          ports:
+            - containerPort: 8000
+          envFrom:
+            - configMapRef:
+                name: {{ include "aerocompliance-pro.fullname" . }}-config
+            - secretRef:
+                name: {{ include "aerocompliance-pro.fullname" . }}-secrets
+          resources:
+            requests:
+              memory: "{{ .Values.backend.resources.requests.memory }}"
+              cpu: "{{ .Values.backend.resources.requests.cpu }}"
+            limits:
+              memory: "{{ .Values.backend.resources.limits.memory }}"
+              cpu: "{{ .Values.backend.resources.limits.cpu }}"
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ include "aerocompliance-pro.fullname" . }}-backend-service
+spec:
+  selector:
+    app: {{ include "aerocompliance-pro.fullname" . }}-backend
+  ports:
+    - protocol: TCP
+      port: 8000
+      targetPort: 8000

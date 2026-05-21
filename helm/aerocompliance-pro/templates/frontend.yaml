@@ -1,0 +1,37 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "aerocompliance-pro.fullname" . }}-frontend
+spec:
+  replicas: {{ .Values.frontend.replicaCount }}
+  selector:
+    matchLabels:
+      app: {{ include "aerocompliance-pro.fullname" . }}-frontend
+  template:
+    metadata:
+      labels:
+        app: {{ include "aerocompliance-pro.fullname" . }}-frontend
+    spec:
+      containers:
+        - name: aerocompliance-pro-frontend
+          image: "{{ .Values.frontend.image }}"
+          imagePullPolicy: {{ .Values.global.imagePullPolicy }}
+          ports:
+            - containerPort: 3000
+          envFrom:
+            - configMapRef:
+                name: {{ include "aerocompliance-pro.fullname" . }}-config
+            - secretRef:
+                name: {{ include "aerocompliance-pro.fullname" . }}-secrets
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ include "aerocompliance-pro.fullname" . }}-frontend-service
+spec:
+  selector:
+    app: {{ include "aerocompliance-pro.fullname" . }}-frontend
+  ports:
+    - protocol: TCP
+      port: 3000
+      targetPort: 3000
