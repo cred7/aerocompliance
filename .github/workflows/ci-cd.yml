@@ -11,7 +11,6 @@ on:
       - develop
 
 env:
-  REGISTRY: docker.io/${{ secrets.DOCKERHUB_USERNAME }}
   BACKEND_IMAGE_NAME: aerocompliance-backend
   FRONTEND_IMAGE_NAME: aerocompliance-frontend
 
@@ -98,6 +97,10 @@ jobs:
     permissions:
       contents: read
       id-token: write
+
+    env:
+      REGISTRY: docker.io/${{ secrets.DOCKERHUB_USERNAME }}
+
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
@@ -138,8 +141,8 @@ jobs:
           file: ./docker/backend/Dockerfile
           push: true
           tags: |
-            docker.io/${{ secrets.DOCKERHUB_USERNAME }}/${{ env.BACKEND_IMAGE_NAME }}:${{ github.sha }}
-            docker.io/${{ secrets.DOCKERHUB_USERNAME }}/${{ env.BACKEND_IMAGE_NAME }}:latest
+            ${{ env.REGISTRY }}/${{ env.BACKEND_IMAGE_NAME }}:${{ github.sha }}
+            ${{ env.REGISTRY }}/${{ env.BACKEND_IMAGE_NAME }}:latest
           cache-from: type=gha
           cache-to: type=gha,mode=max
 
@@ -150,8 +153,8 @@ jobs:
           file: ./docker/frontend/Dockerfile
           push: true
           tags: |
-            docker.io/${{ secrets.DOCKERHUB_USERNAME }}/${{ env.FRONTEND_IMAGE_NAME }}:${{ github.sha }}
-            docker.io/${{ secrets.DOCKERHUB_USERNAME }}/${{ env.FRONTEND_IMAGE_NAME }}:latest
+            ${{ env.REGISTRY }}/${{ env.FRONTEND_IMAGE_NAME }}:${{ github.sha }}
+            ${{ env.REGISTRY }}/${{ env.FRONTEND_IMAGE_NAME }}:latest
           cache-from: type=gha
           cache-to: type=gha,mode=max
 
