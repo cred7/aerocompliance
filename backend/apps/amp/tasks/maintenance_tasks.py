@@ -17,5 +17,6 @@ def recalculate_all_tasks():
 
         status = DueCalculationService.calculate_task_status(task, aircraft)
         logger.info(
-            f"Recalculated task {task.title} for aircraft {aircraft.tail_number}: {status}")
+            f"Recalculated task {task.title} for aircraft {aircraft.tail_number}: {status}"
+        )
         print(f"{task.title} -----------> {status}")

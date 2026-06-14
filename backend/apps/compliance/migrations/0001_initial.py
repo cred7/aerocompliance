@@ -9,20 +9,46 @@ class Migration(migrations.Migration):
     initial = True
 
     dependencies = [
-        ('aircraft', '0001_initial'),
+        ("aircraft", "0001_initial"),
     ]
 
     operations = [
         migrations.CreateModel(
-            name='ComplianceSnapshot',
+            name="ComplianceSnapshot",
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('amp_status', models.CharField(max_length=20)),
-                ('mel_status', models.CharField(max_length=20)),
-                ('ad_status', models.CharField(max_length=20)),
-                ('overall_status', models.CharField(choices=[('AIRWORTHY', 'Airworthy'), ('RESTRICTED', 'Restricted'), ('UNFIT', 'Unfit')], default='AIRWORTHY', max_length=20)),
-                ('last_evaluated', models.DateTimeField(auto_now=True)),
-                ('aircraft', models.OneToOneField(on_delete=django.db.models.deletion.CASCADE, related_name='compliance_snapshot', to='aircraft.aircraft')),
+                (
+                    "id",
+                    models.BigAutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                ("amp_status", models.CharField(max_length=20)),
+                ("mel_status", models.CharField(max_length=20)),
+                ("ad_status", models.CharField(max_length=20)),
+                (
+                    "overall_status",
+                    models.CharField(
+                        choices=[
+                            ("AIRWORTHY", "Airworthy"),
+                            ("RESTRICTED", "Restricted"),
+                            ("UNFIT", "Unfit"),
+                        ],
+                        default="AIRWORTHY",
+                        max_length=20,
+                    ),
+                ),
+                ("last_evaluated", models.DateTimeField(auto_now=True)),
+                (
+                    "aircraft",
+                    models.OneToOneField(
+                        on_delete=django.db.models.deletion.CASCADE,
+                        related_name="compliance_snapshot",
+                        to="aircraft.aircraft",
+                    ),
+                ),
             ],
         ),
     ]

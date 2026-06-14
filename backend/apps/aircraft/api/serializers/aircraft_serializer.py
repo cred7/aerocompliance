@@ -4,6 +4,7 @@ from apps.aircraft.models.aircraft import Aircraft
 
 class AircraftTypeListSerializer(serializers.Serializer):
     """Simplified aircraft type for nesting"""
+
     id = serializers.IntegerField()
     manufacturer = serializers.CharField()
     model = serializers.CharField()
@@ -12,6 +13,7 @@ class AircraftTypeListSerializer(serializers.Serializer):
 
 class OperatorListSerializer(serializers.Serializer):
     """Simplified operator for nesting"""
+
     id = serializers.IntegerField()
     name = serializers.CharField()
     code = serializers.CharField()
@@ -20,6 +22,7 @@ class OperatorListSerializer(serializers.Serializer):
 
 class MELItemListSerializer(serializers.Serializer):
     """Simplified MEL item for nesting"""
+
     id = serializers.IntegerField()
     title = serializers.CharField()
     category = serializers.CharField()
@@ -31,6 +34,7 @@ class MELItemListSerializer(serializers.Serializer):
 
 class ADComplianceListSerializer(serializers.Serializer):
     """Simplified AD compliance for nesting"""
+
     id = serializers.IntegerField()
     ad = serializers.SerializerMethodField()
     status = serializers.CharField()
@@ -47,6 +51,7 @@ class ADComplianceListSerializer(serializers.Serializer):
 
 class MaintenanceTaskListSerializer(serializers.Serializer):
     """Simplified maintenance task for nesting"""
+
     id = serializers.IntegerField()
     title = serializers.CharField()
     interval_type = serializers.CharField()
@@ -57,6 +62,7 @@ class MaintenanceTaskListSerializer(serializers.Serializer):
 
 class ComplianceSnapshotListSerializer(serializers.Serializer):
     """Simplified compliance snapshot for nesting"""
+
     id = serializers.IntegerField()
     amp_status = serializers.CharField()
     mel_status = serializers.CharField()
@@ -67,6 +73,7 @@ class ComplianceSnapshotListSerializer(serializers.Serializer):
 
 class DocumentListSerializer(serializers.Serializer):
     """Simplified document for nesting"""
+
     id = serializers.IntegerField()
     title = serializers.CharField()
     type = serializers.CharField()
@@ -79,6 +86,7 @@ class DocumentListSerializer(serializers.Serializer):
 
 class AuditLogListSerializer(serializers.Serializer):
     """Simplified audit log for nesting"""
+
     id = serializers.IntegerField()
     action = serializers.CharField()
     model_name = serializers.CharField()
@@ -181,7 +189,7 @@ class AircraftDetailSerializer(serializers.ModelSerializer):
         return MaintenanceTaskListSerializer(tasks, many=True).data
 
     def get_compliance_snapshot(self, obj):
-        snapshot = getattr(obj, 'compliance_snapshot', None)
+        snapshot = getattr(obj, "compliance_snapshot", None)
         if snapshot:
             return ComplianceSnapshotListSerializer(snapshot).data
         return None
@@ -191,18 +199,17 @@ class AircraftDetailSerializer(serializers.ModelSerializer):
         return DocumentListSerializer(documents, many=True).data
 
     def get_audit_logs(self, obj):
-        audit_logs = obj.audit_logs.all().order_by(
-            '-timestamp')[:20]  # Last 20
+        audit_logs = obj.audit_logs.all().order_by("-timestamp")[:20]  # Last 20
         return AuditLogListSerializer(audit_logs, many=True).data
 
     def get_total_mel_items(self, obj):
         return obj.mel_items.count()
 
     def get_open_mel_items(self, obj):
-        return obj.mel_items.filter(status__in=['OPEN', 'IN_PROGRESS']).count()
+        return obj.mel_items.filter(status__in=["OPEN", "IN_PROGRESS"]).count()
 
     def get_total_ad_items(self, obj):
         return obj.ad_compliances.count()
 
     def get_overdue_ad_items(self, obj):
-        return obj.ad_compliances.filter(status='OVERDUE').count()
+        return obj.ad_compliances.filter(status="OVERDUE").count()

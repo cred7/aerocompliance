@@ -11,17 +11,14 @@ class AlertEngine:
     @staticmethod
     def run_mel_alerts():
 
-        expiring = MELItem.objects.filter(
-            status="OPEN",
-            remaining_hours__lte=5
-        )
+        expiring = MELItem.objects.filter(status="OPEN", remaining_hours__lte=5)
 
         for item in expiring:
             NotificationService.create_notification(
                 # Prefer attaching the aircraft instance and a user if available.
                 aircraft=item.aircraft,
-                user=getattr(item.aircraft, "operator_user", None) or getattr(
-                    item.aircraft, "operator_id", None),
+                user=getattr(item.aircraft, "operator_user", None)
+                or getattr(item.aircraft, "operator_id", None),
                 title="MEL Expiry Warning",
                 message=f"{item.title} is expiring soon",
                 type="MEL",
@@ -33,7 +30,8 @@ class AlertEngine:
         for aircraft in Aircraft.objects.all():
             if aircraft.total_flight_hours > 1000:
                 logger.info(
-                    f" creating AMP alert for {aircraft.tail_number} with {aircraft.total_flight_hours} flight hours")
+                    f" creating AMP alert for {aircraft.tail_number} with {aircraft.total_flight_hours} flight hours"
+                )
                 NotificationService.create_notification(
                     aircraft=aircraft,
                     title="AMP Alert",
@@ -41,7 +39,8 @@ class AlertEngine:
                     type="AMP",
                 )
                 logger.info(
-                    f" created AMP alert for {aircraft.tail_number} with {aircraft.total_flight_hours} flight hours")
+                    f" created AMP alert for {aircraft.tail_number} with {aircraft.total_flight_hours} flight hours"
+                )
 
     @staticmethod
     def run_ad_alerts():

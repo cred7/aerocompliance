@@ -19,8 +19,7 @@ class ComplianceEngine:
         amp_status = "COMPLIANT"
 
         for task in amp_tasks:
-            status = DueCalculationService.calculate_task_status(
-                task, aircraft)
+            status = DueCalculationService.calculate_task_status(task, aircraft)
             if status == "OVERDUE":
                 amp_status = "NON_COMPLIANT"
                 break
@@ -63,7 +62,7 @@ class ComplianceEngine:
                 "mel_status": mel_status,
                 "ad_status": ad_status,
                 "overall_status": overall,
-            }
+            },
         )
 
         return snapshot

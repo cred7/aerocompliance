@@ -10,18 +10,25 @@ class Migration(migrations.Migration):
     initial = True
 
     dependencies = [
-        ('audits', '0001_initial'),
+        ("audits", "0001_initial"),
         migrations.swappable_dependency(settings.AUTH_USER_MODEL),
     ]
 
     operations = [
         migrations.AddField(
-            model_name='auditlog',
-            name='user',
-            field=models.ForeignKey(null=True, on_delete=django.db.models.deletion.SET_NULL, to=settings.AUTH_USER_MODEL),
+            model_name="auditlog",
+            name="user",
+            field=models.ForeignKey(
+                null=True,
+                on_delete=django.db.models.deletion.SET_NULL,
+                to=settings.AUTH_USER_MODEL,
+            ),
         ),
         migrations.AddIndex(
-            model_name='auditlog',
-            index=models.Index(fields=['model_name', 'object_id'], name='audits_audi_model_n_9b0991_idx'),
+            model_name="auditlog",
+            index=models.Index(
+                fields=["model_name", "object_id"],
+                name="audits_audi_model_n_9b0991_idx",
+            ),
         ),
     ]

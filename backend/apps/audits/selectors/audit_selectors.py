@@ -11,6 +11,4 @@ def get_model_audits(model_name: str, object_id: str):
 
 def get_user_audits(user_id: int):
 
-    return AuditLog.objects.filter(
-        user_id=user_id
-    ).order_by("-timestamp")
+    return AuditLog.objects.filter(user_id=user_id).order_by("-timestamp")

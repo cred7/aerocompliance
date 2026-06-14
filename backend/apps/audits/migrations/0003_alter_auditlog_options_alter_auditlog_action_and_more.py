@@ -8,23 +8,35 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('audits', '0002_initial'),
+        ("audits", "0002_initial"),
         migrations.swappable_dependency(settings.AUTH_USER_MODEL),
     ]
 
     operations = [
         migrations.AlterModelOptions(
-            name='auditlog',
-            options={'ordering': ['-timestamp']},
+            name="auditlog",
+            options={"ordering": ["-timestamp"]},
         ),
         migrations.AlterField(
-            model_name='auditlog',
-            name='action',
-            field=models.CharField(choices=[('CREATE', 'Create'), ('UPDATE', 'Update'), ('DELETE', 'Delete')], max_length=20),
+            model_name="auditlog",
+            name="action",
+            field=models.CharField(
+                choices=[
+                    ("CREATE", "Create"),
+                    ("UPDATE", "Update"),
+                    ("DELETE", "Delete"),
+                ],
+                max_length=20,
+            ),
         ),
         migrations.AlterField(
-            model_name='auditlog',
-            name='user',
-            field=models.ForeignKey(blank=True, null=True, on_delete=django.db.models.deletion.SET_NULL, to=settings.AUTH_USER_MODEL),
+            model_name="auditlog",
+            name="user",
+            field=models.ForeignKey(
+                blank=True,
+                null=True,
+                on_delete=django.db.models.deletion.SET_NULL,
+                to=settings.AUTH_USER_MODEL,
+            ),
         ),
     ]

@@ -8,55 +8,111 @@ class Migration(migrations.Migration):
 
     initial = True
 
-    dependencies = [
-    ]
+    dependencies = []
 
     operations = [
         migrations.CreateModel(
-            name='Operator',
+            name="Operator",
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('name', models.CharField(max_length=255, unique=True)),
-                ('code', models.CharField(max_length=20, unique=True)),
-                ('country', models.CharField(max_length=100)),
-                ('created_at', models.DateTimeField(auto_now_add=True)),
+                (
+                    "id",
+                    models.BigAutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                ("name", models.CharField(max_length=255, unique=True)),
+                ("code", models.CharField(max_length=20, unique=True)),
+                ("country", models.CharField(max_length=100)),
+                ("created_at", models.DateTimeField(auto_now_add=True)),
             ],
             options={
-                'ordering': ['name'],
+                "ordering": ["name"],
             },
         ),
         migrations.CreateModel(
-            name='AircraftType',
+            name="AircraftType",
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('manufacturer', models.CharField(max_length=255)),
-                ('model', models.CharField(max_length=255)),
-                ('engine_type', models.CharField(max_length=255)),
-                ('created_at', models.DateTimeField(auto_now_add=True)),
+                (
+                    "id",
+                    models.BigAutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                ("manufacturer", models.CharField(max_length=255)),
+                ("model", models.CharField(max_length=255)),
+                ("engine_type", models.CharField(max_length=255)),
+                ("created_at", models.DateTimeField(auto_now_add=True)),
             ],
             options={
-                'ordering': ['manufacturer', 'model'],
-                'unique_together': {('manufacturer', 'model')},
+                "ordering": ["manufacturer", "model"],
+                "unique_together": {("manufacturer", "model")},
             },
         ),
         migrations.CreateModel(
-            name='Aircraft',
+            name="Aircraft",
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('tail_number', models.CharField(max_length=20, unique=True)),
-                ('serial_number', models.CharField(max_length=100, unique=True)),
-                ('manufacture_date', models.DateField()),
-                ('total_flight_hours', models.FloatField(default=0)),
-                ('total_flight_cycles', models.IntegerField(default=0)),
-                ('status', models.CharField(choices=[('ACTIVE', 'Active'), ('MAINTENANCE', 'Maintenance'), ('AOG', 'Aircraft On Ground'), ('RETIRED', 'Retired')], default='ACTIVE', max_length=20)),
-                ('created_at', models.DateTimeField(auto_now_add=True)),
-                ('updated_at', models.DateTimeField(auto_now=True)),
-                ('aircraft_type', models.ForeignKey(on_delete=django.db.models.deletion.PROTECT, related_name='aircraft', to='aircraft.aircrafttype')),
-                ('operator', models.ForeignKey(on_delete=django.db.models.deletion.PROTECT, related_name='aircraft', to='aircraft.operator')),
+                (
+                    "id",
+                    models.BigAutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                ("tail_number", models.CharField(max_length=20, unique=True)),
+                ("serial_number", models.CharField(max_length=100, unique=True)),
+                ("manufacture_date", models.DateField()),
+                ("total_flight_hours", models.FloatField(default=0)),
+                ("total_flight_cycles", models.IntegerField(default=0)),
+                (
+                    "status",
+                    models.CharField(
+                        choices=[
+                            ("ACTIVE", "Active"),
+                            ("MAINTENANCE", "Maintenance"),
+                            ("AOG", "Aircraft On Ground"),
+                            ("RETIRED", "Retired"),
+                        ],
+                        default="ACTIVE",
+                        max_length=20,
+                    ),
+                ),
+                ("created_at", models.DateTimeField(auto_now_add=True)),
+                ("updated_at", models.DateTimeField(auto_now=True)),
+                (
+                    "aircraft_type",
+                    models.ForeignKey(
+                        on_delete=django.db.models.deletion.PROTECT,
+                        related_name="aircraft",
+                        to="aircraft.aircrafttype",
+                    ),
+                ),
+                (
+                    "operator",
+                    models.ForeignKey(
+                        on_delete=django.db.models.deletion.PROTECT,
+                        related_name="aircraft",
+                        to="aircraft.operator",
+                    ),
+                ),
             ],
             options={
-                'ordering': ['tail_number'],
-                'indexes': [models.Index(fields=['tail_number'], name='aircraft_ai_tail_nu_881761_idx'), models.Index(fields=['status'], name='aircraft_ai_status_041aad_idx')],
+                "ordering": ["tail_number"],
+                "indexes": [
+                    models.Index(
+                        fields=["tail_number"], name="aircraft_ai_tail_nu_881761_idx"
+                    ),
+                    models.Index(
+                        fields=["status"], name="aircraft_ai_status_041aad_idx"
+                    ),
+                ],
             },
         ),
     ]

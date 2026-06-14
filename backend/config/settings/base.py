@@ -5,7 +5,6 @@ from pathlib import Path
 import os
 from dotenv import load_dotenv
 
-
 BASE_DIR = Path(__file__).resolve().parent.parent.parent
 load_dotenv(BASE_DIR / ".env")
 
@@ -14,11 +13,15 @@ load_dotenv(BASE_DIR / ".env")
 # =========================
 
 # SECRET_KEY = os.getenv("DJANGO_SECRET_KEY")
-SECRET_KEY = 'django-insecure-he#&#$n_ej7f3+6&0fg&_k44dh4*q$a2y5qvjilb-#u%(_oslz'
+SECRET_KEY = "django-insecure-he#&#$n_ej7f3+6&0fg&_k44dh4*q$a2y5qvjilb-#u%(_oslz"
 
 DEBUG = False
 
-ALLOWED_HOSTS = ["localhost", "127.0.0.1", "frontend",]
+ALLOWED_HOSTS = [
+    "localhost",
+    "127.0.0.1",
+    "frontend",
+]
 ALLOWED_HOSTS += os.getenv("ALLOWED_HOSTS", "").split(",")
 CORS_ALLOWED_ORIGINS = [
     "http://localhost:3000",
@@ -27,7 +30,6 @@ CORS_ALLOWED_ORIGINS = [
     "http://127.0.0.1:3000",
     "http://localhost",
     "http://localhost:8090",
-
 ]
 CORS_ALLOWED_ORIGINS += [f"http://{host}" for host in ALLOWED_HOSTS]
 
@@ -43,14 +45,12 @@ INSTALLED_APPS = [
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
-
     # third-party
     "rest_framework",
     "rest_framework_simplejwt",
     "drf_spectacular",
     "django_filters",
     "corsheaders",
-
     # local apps
     "apps.users",
     "apps.aircraft",
@@ -197,11 +197,9 @@ REST_FRAMEWORK = {
     "DEFAULT_AUTHENTICATION_CLASSES": (
         "rest_framework_simplejwt.authentication.JWTAuthentication",
     ),
-
     "DEFAULT_FILTER_BACKENDS": [
         "django_filters.rest_framework.DjangoFilterBackend",
     ],
-
     "DEFAULT_SCHEMA_CLASS": "drf_spectacular.openapi.AutoSchema",
 }
 

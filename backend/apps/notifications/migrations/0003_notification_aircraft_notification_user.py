@@ -8,20 +8,32 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('aircraft', '0001_initial'),
-        ('notifications', '0002_remove_notification_user'),
+        ("aircraft", "0001_initial"),
+        ("notifications", "0002_remove_notification_user"),
         migrations.swappable_dependency(settings.AUTH_USER_MODEL),
     ]
 
     operations = [
         migrations.AddField(
-            model_name='notification',
-            name='aircraft',
-            field=models.ForeignKey(blank=True, null=True, on_delete=django.db.models.deletion.CASCADE, related_name='notifications', to='aircraft.aircraft'),
+            model_name="notification",
+            name="aircraft",
+            field=models.ForeignKey(
+                blank=True,
+                null=True,
+                on_delete=django.db.models.deletion.CASCADE,
+                related_name="notifications",
+                to="aircraft.aircraft",
+            ),
         ),
         migrations.AddField(
-            model_name='notification',
-            name='user',
-            field=models.ForeignKey(blank=True, null=True, on_delete=django.db.models.deletion.CASCADE, related_name='notifications', to=settings.AUTH_USER_MODEL),
+            model_name="notification",
+            name="user",
+            field=models.ForeignKey(
+                blank=True,
+                null=True,
+                on_delete=django.db.models.deletion.CASCADE,
+                related_name="notifications",
+                to=settings.AUTH_USER_MODEL,
+            ),
         ),
     ]

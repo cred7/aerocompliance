@@ -21,8 +21,7 @@ class ADComplianceService:
         if ad.compliance_type == "RECURRING":
 
             if ad.interval_days and ad_compliance.last_compliance_date:
-                days_passed = (
-                    date.today() - ad_compliance.last_compliance_date).days
+                days_passed = (date.today() - ad_compliance.last_compliance_date).days
 
                 if days_passed > ad.interval_days:
                     return ADCompliance.Status.OVERDUE

@@ -10,16 +10,17 @@ from rest_framework.permissions import IsAuthenticated
 
 class DocumentViewSet(viewsets.ModelViewSet):
 
-    queryset = Document.objects.select_related(
-        'aircraft', 'uploaded_by').order_by("-uploaded_at")
+    queryset = Document.objects.select_related("aircraft", "uploaded_by").order_by(
+        "-uploaded_at"
+    )
     serializer_class = DocumentSerializer
     permission_classes = [IsAuthenticated]
 
     def get_queryset(self):
         """Filter by aircraft and type if provided"""
         queryset = super().get_queryset()
-        aircraft_id = self.request.query_params.get('aircraft_id')
-        doc_type = self.request.query_params.get('type')
+        aircraft_id = self.request.query_params.get("aircraft_id")
+        doc_type = self.request.query_params.get("type")
 
         if aircraft_id:
             queryset = queryset.filter(aircraft_id=aircraft_id)
@@ -30,14 +31,13 @@ class DocumentViewSet(viewsets.ModelViewSet):
 
     def perform_create(self, serializer):
         DocumentService.upload_document(
-            data=serializer.validated_data,
-            user=self.request.user
+            data=serializer.validated_data, user=self.request.user
         )
 
-    @action(detail=False, methods=['get'])
+    @action(detail=False, methods=["get"])
     def by_aircraft(self, request):
         """Get documents for a specific aircraft"""
-        aircraft_id = request.query_params.get('aircraft_id')
+        aircraft_id = request.query_params.get("aircraft_id")
         if not aircraft_id:
             return Response({"error": "aircraft_id parameter required"}, status=400)
 
@@ -45,10 +45,10 @@ class DocumentViewSet(viewsets.ModelViewSet):
         serializer = self.get_serializer(documents, many=True)
         return Response(serializer.data)
 
-    @action(detail=False, methods=['get'])
+    @action(detail=False, methods=["get"])
     def by_type(self, request):
         """Get documents filtered by type"""
-        doc_type = request.query_params.get('type')
+        doc_type = request.query_params.get("type")
         if not doc_type:
             return Response({"error": "type parameter required"}, status=400)
 

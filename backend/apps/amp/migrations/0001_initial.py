@@ -10,38 +10,85 @@ class Migration(migrations.Migration):
     initial = True
 
     dependencies = [
-        ('aircraft', '0001_initial'),
+        ("aircraft", "0001_initial"),
         migrations.swappable_dependency(settings.AUTH_USER_MODEL),
     ]
 
     operations = [
         migrations.CreateModel(
-            name='MaintenanceTask',
+            name="MaintenanceTask",
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('title', models.CharField(max_length=255)),
-                ('description', models.TextField(blank=True)),
-                ('interval_type', models.CharField(choices=[('FH', 'Flight Hours'), ('FC', 'Flight Cycles'), ('CAL', 'Calendar')], max_length=10)),
-                ('interval_value', models.FloatField()),
-                ('last_performed_fh', models.FloatField(default=0)),
-                ('last_performed_fc', models.IntegerField(default=0)),
-                ('last_performed_date', models.DateField(blank=True, null=True)),
-                ('is_active', models.BooleanField(default=True)),
-                ('created_at', models.DateTimeField(auto_now_add=True)),
-                ('aircraft', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='maintenance_tasks', to='aircraft.aircraft')),
+                (
+                    "id",
+                    models.BigAutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                ("title", models.CharField(max_length=255)),
+                ("description", models.TextField(blank=True)),
+                (
+                    "interval_type",
+                    models.CharField(
+                        choices=[
+                            ("FH", "Flight Hours"),
+                            ("FC", "Flight Cycles"),
+                            ("CAL", "Calendar"),
+                        ],
+                        max_length=10,
+                    ),
+                ),
+                ("interval_value", models.FloatField()),
+                ("last_performed_fh", models.FloatField(default=0)),
+                ("last_performed_fc", models.IntegerField(default=0)),
+                ("last_performed_date", models.DateField(blank=True, null=True)),
+                ("is_active", models.BooleanField(default=True)),
+                ("created_at", models.DateTimeField(auto_now_add=True)),
+                (
+                    "aircraft",
+                    models.ForeignKey(
+                        on_delete=django.db.models.deletion.CASCADE,
+                        related_name="maintenance_tasks",
+                        to="aircraft.aircraft",
+                    ),
+                ),
             ],
         ),
         migrations.CreateModel(
-            name='MaintenanceExecution',
+            name="MaintenanceExecution",
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('performed_fh', models.FloatField()),
-                ('performed_fc', models.IntegerField()),
-                ('performed_date', models.DateField()),
-                ('notes', models.TextField(blank=True)),
-                ('created_at', models.DateTimeField(auto_now_add=True)),
-                ('performed_by', models.ForeignKey(null=True, on_delete=django.db.models.deletion.SET_NULL, to=settings.AUTH_USER_MODEL)),
-                ('task', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='executions', to='amp.maintenancetask')),
+                (
+                    "id",
+                    models.BigAutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                ("performed_fh", models.FloatField()),
+                ("performed_fc", models.IntegerField()),
+                ("performed_date", models.DateField()),
+                ("notes", models.TextField(blank=True)),
+                ("created_at", models.DateTimeField(auto_now_add=True)),
+                (
+                    "performed_by",
+                    models.ForeignKey(
+                        null=True,
+                        on_delete=django.db.models.deletion.SET_NULL,
+                        to=settings.AUTH_USER_MODEL,
+                    ),
+                ),
+                (
+                    "task",
+                    models.ForeignKey(
+                        on_delete=django.db.models.deletion.CASCADE,
+                        related_name="executions",
+                        to="amp.maintenancetask",
+                    ),
+                ),
             ],
         ),
     ]

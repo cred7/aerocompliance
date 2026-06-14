@@ -7,20 +7,27 @@ class Migration(migrations.Migration):
 
     initial = True
 
-    dependencies = [
-    ]
+    dependencies = []
 
     operations = [
         migrations.CreateModel(
-            name='AuditLog',
+            name="AuditLog",
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('action', models.CharField(max_length=255)),
-                ('model_name', models.CharField(max_length=255)),
-                ('object_id', models.CharField(max_length=255)),
-                ('before', models.JSONField(blank=True, null=True)),
-                ('after', models.JSONField(blank=True, null=True)),
-                ('timestamp', models.DateTimeField(auto_now_add=True)),
+                (
+                    "id",
+                    models.BigAutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                ("action", models.CharField(max_length=255)),
+                ("model_name", models.CharField(max_length=255)),
+                ("object_id", models.CharField(max_length=255)),
+                ("before", models.JSONField(blank=True, null=True)),
+                ("after", models.JSONField(blank=True, null=True)),
+                ("timestamp", models.DateTimeField(auto_now_add=True)),
             ],
         ),
     ]

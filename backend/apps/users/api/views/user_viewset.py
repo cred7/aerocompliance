@@ -13,7 +13,12 @@ class UserViewSet(viewsets.ModelViewSet):
     serializer_class = UserSerializer
     permission_classes = [IsAdmin]
 
-    @action(detail=False, methods=["post"], permission_classes=[AllowAny], authentication_classes=[])
+    @action(
+        detail=False,
+        methods=["post"],
+        permission_classes=[AllowAny],
+        authentication_classes=[],
+    )
     def login(self, request):
         from apps.users.services.auth_service import AuthService
 
@@ -23,11 +28,15 @@ class UserViewSet(viewsets.ModelViewSet):
         auth_data = AuthService.login_user(username, password)
 
         if not auth_data:
-            return Response({"detail": "Invalid credentials"}, status=status.HTTP_401_UNAUTHORIZED)
+            return Response(
+                {"detail": "Invalid credentials"}, status=status.HTTP_401_UNAUTHORIZED
+            )
 
         serializer = self.get_serializer(auth_data["user"])
-        return Response({
-            "user": serializer.data,
-            "access": auth_data["access"],
-            "refresh": auth_data["refresh"],
-        })
+        return Response(
+            {
+                "user": serializer.data,
+                "access": auth_data["access"],
+                "refresh": auth_data["refresh"],
+            }
+        )

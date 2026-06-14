@@ -8,28 +8,44 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('aircraft', '0001_initial'),
-        ('audits', '0003_alter_auditlog_options_alter_auditlog_action_and_more'),
+        ("aircraft", "0001_initial"),
+        ("audits", "0003_alter_auditlog_options_alter_auditlog_action_and_more"),
         migrations.swappable_dependency(settings.AUTH_USER_MODEL),
     ]
 
     operations = [
         migrations.AddField(
-            model_name='auditlog',
-            name='aircraft',
-            field=models.ForeignKey(blank=True, null=True, on_delete=django.db.models.deletion.CASCADE, related_name='audit_logs', to='aircraft.aircraft'),
+            model_name="auditlog",
+            name="aircraft",
+            field=models.ForeignKey(
+                blank=True,
+                null=True,
+                on_delete=django.db.models.deletion.CASCADE,
+                related_name="audit_logs",
+                to="aircraft.aircraft",
+            ),
         ),
         migrations.AlterField(
-            model_name='auditlog',
-            name='user',
-            field=models.ForeignKey(blank=True, null=True, on_delete=django.db.models.deletion.SET_NULL, related_name='audit_logs_created', to=settings.AUTH_USER_MODEL),
+            model_name="auditlog",
+            name="user",
+            field=models.ForeignKey(
+                blank=True,
+                null=True,
+                on_delete=django.db.models.deletion.SET_NULL,
+                related_name="audit_logs_created",
+                to=settings.AUTH_USER_MODEL,
+            ),
         ),
         migrations.AddIndex(
-            model_name='auditlog',
-            index=models.Index(fields=['aircraft', 'timestamp'], name='audits_audi_aircraf_f56292_idx'),
+            model_name="auditlog",
+            index=models.Index(
+                fields=["aircraft", "timestamp"], name="audits_audi_aircraf_f56292_idx"
+            ),
         ),
         migrations.AddIndex(
-            model_name='auditlog',
-            index=models.Index(fields=['user', 'timestamp'], name='audits_audi_user_id_312468_idx'),
+            model_name="auditlog",
+            index=models.Index(
+                fields=["user", "timestamp"], name="audits_audi_user_id_312468_idx"
+            ),
         ),
     ]

@@ -32,8 +32,7 @@ class NotificationService:
                 data["aircraft"] = aircraft
 
         # Merge any additional allowed kwargs (future-proof)
-        allowed_extra = {k: v for k, v in kwargs.items() if k in [
-            "status", "sent_at"]}
+        allowed_extra = {k: v for k, v in kwargs.items() if k in ["status", "sent_at"]}
         data.update(allowed_extra)
 
         return Notification.objects.create(**data)

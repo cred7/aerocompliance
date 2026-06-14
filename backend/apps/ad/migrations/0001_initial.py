@@ -9,48 +9,118 @@ class Migration(migrations.Migration):
     initial = True
 
     dependencies = [
-        ('aircraft', '0001_initial'),
+        ("aircraft", "0001_initial"),
     ]
 
     operations = [
         migrations.CreateModel(
-            name='AirworthinessDirective',
+            name="AirworthinessDirective",
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('ad_number', models.CharField(max_length=100, unique=True)),
-                ('title', models.CharField(max_length=255)),
-                ('description', models.TextField()),
-                ('compliance_type', models.CharField(choices=[('ONE_TIME', 'One Time'), ('RECURRING', 'Recurring')], max_length=20)),
-                ('interval_fh', models.FloatField(blank=True, null=True)),
-                ('interval_fc', models.IntegerField(blank=True, null=True)),
-                ('interval_days', models.IntegerField(blank=True, null=True)),
-                ('effective_date', models.DateField()),
-                ('mandatory', models.BooleanField(default=True)),
-                ('created_at', models.DateTimeField(auto_now_add=True)),
+                (
+                    "id",
+                    models.BigAutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                ("ad_number", models.CharField(max_length=100, unique=True)),
+                ("title", models.CharField(max_length=255)),
+                ("description", models.TextField()),
+                (
+                    "compliance_type",
+                    models.CharField(
+                        choices=[("ONE_TIME", "One Time"), ("RECURRING", "Recurring")],
+                        max_length=20,
+                    ),
+                ),
+                ("interval_fh", models.FloatField(blank=True, null=True)),
+                ("interval_fc", models.IntegerField(blank=True, null=True)),
+                ("interval_days", models.IntegerField(blank=True, null=True)),
+                ("effective_date", models.DateField()),
+                ("mandatory", models.BooleanField(default=True)),
+                ("created_at", models.DateTimeField(auto_now_add=True)),
             ],
         ),
         migrations.CreateModel(
-            name='ADCompliance',
+            name="ADCompliance",
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('status', models.CharField(choices=[('COMPLIANT', 'Compliant'), ('DUE', 'Due'), ('OVERDUE', 'Overdue'), ('NA', 'Not Applicable')], default='DUE', max_length=20)),
-                ('last_compliance_fh', models.FloatField(default=0)),
-                ('last_compliance_fc', models.IntegerField(default=0)),
-                ('last_compliance_date', models.DateField(blank=True, null=True)),
-                ('next_due_date', models.DateField(blank=True, null=True)),
-                ('created_at', models.DateTimeField(auto_now_add=True)),
-                ('updated_at', models.DateTimeField(auto_now=True)),
-                ('aircraft', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='ad_compliances', to='aircraft.aircraft')),
-                ('ad', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='compliances', to='ad.airworthinessdirective')),
+                (
+                    "id",
+                    models.BigAutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                (
+                    "status",
+                    models.CharField(
+                        choices=[
+                            ("COMPLIANT", "Compliant"),
+                            ("DUE", "Due"),
+                            ("OVERDUE", "Overdue"),
+                            ("NA", "Not Applicable"),
+                        ],
+                        default="DUE",
+                        max_length=20,
+                    ),
+                ),
+                ("last_compliance_fh", models.FloatField(default=0)),
+                ("last_compliance_fc", models.IntegerField(default=0)),
+                ("last_compliance_date", models.DateField(blank=True, null=True)),
+                ("next_due_date", models.DateField(blank=True, null=True)),
+                ("created_at", models.DateTimeField(auto_now_add=True)),
+                ("updated_at", models.DateTimeField(auto_now=True)),
+                (
+                    "aircraft",
+                    models.ForeignKey(
+                        on_delete=django.db.models.deletion.CASCADE,
+                        related_name="ad_compliances",
+                        to="aircraft.aircraft",
+                    ),
+                ),
+                (
+                    "ad",
+                    models.ForeignKey(
+                        on_delete=django.db.models.deletion.CASCADE,
+                        related_name="compliances",
+                        to="ad.airworthinessdirective",
+                    ),
+                ),
             ],
         ),
         migrations.CreateModel(
-            name='ADApplicabilityRule',
+            name="ADApplicabilityRule",
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('is_applicable', models.BooleanField(default=True)),
-                ('aircraft_type', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='ad_rules', to='aircraft.aircrafttype')),
-                ('ad', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='rules', to='ad.airworthinessdirective')),
+                (
+                    "id",
+                    models.BigAutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                ("is_applicable", models.BooleanField(default=True)),
+                (
+                    "aircraft_type",
+                    models.ForeignKey(
+                        on_delete=django.db.models.deletion.CASCADE,
+                        related_name="ad_rules",
+                        to="aircraft.aircrafttype",
+                    ),
+                ),
+                (
+                    "ad",
+                    models.ForeignKey(
+                        on_delete=django.db.models.deletion.CASCADE,
+                        related_name="rules",
+                        to="ad.airworthinessdirective",
+                    ),
+                ),
             ],
         ),
     ]

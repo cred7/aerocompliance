@@ -10,37 +10,97 @@ class Migration(migrations.Migration):
     initial = True
 
     dependencies = [
-        ('aircraft', '0001_initial'),
+        ("aircraft", "0001_initial"),
         migrations.swappable_dependency(settings.AUTH_USER_MODEL),
     ]
 
     operations = [
         migrations.CreateModel(
-            name='MELItem',
+            name="MELItem",
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('title', models.CharField(max_length=255)),
-                ('description', models.TextField(blank=True)),
-                ('category', models.CharField(choices=[('A', 'Category A'), ('B', 'Category B'), ('C', 'Category C'), ('D', 'Category D')], max_length=1)),
-                ('status', models.CharField(choices=[('OPEN', 'Open'), ('IN_PROGRESS', 'In Progress'), ('CLOSED', 'Closed'), ('EXPIRED', 'Expired')], default='OPEN', max_length=20)),
-                ('reported_date', models.DateTimeField(auto_now_add=True)),
-                ('allowed_duration_hours', models.FloatField()),
-                ('remaining_hours', models.FloatField()),
-                ('resolved_at', models.DateTimeField(blank=True, null=True)),
-                ('created_at', models.DateTimeField(auto_now_add=True)),
-                ('aircraft', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='mel_items', to='aircraft.aircraft')),
+                (
+                    "id",
+                    models.BigAutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                ("title", models.CharField(max_length=255)),
+                ("description", models.TextField(blank=True)),
+                (
+                    "category",
+                    models.CharField(
+                        choices=[
+                            ("A", "Category A"),
+                            ("B", "Category B"),
+                            ("C", "Category C"),
+                            ("D", "Category D"),
+                        ],
+                        max_length=1,
+                    ),
+                ),
+                (
+                    "status",
+                    models.CharField(
+                        choices=[
+                            ("OPEN", "Open"),
+                            ("IN_PROGRESS", "In Progress"),
+                            ("CLOSED", "Closed"),
+                            ("EXPIRED", "Expired"),
+                        ],
+                        default="OPEN",
+                        max_length=20,
+                    ),
+                ),
+                ("reported_date", models.DateTimeField(auto_now_add=True)),
+                ("allowed_duration_hours", models.FloatField()),
+                ("remaining_hours", models.FloatField()),
+                ("resolved_at", models.DateTimeField(blank=True, null=True)),
+                ("created_at", models.DateTimeField(auto_now_add=True)),
+                (
+                    "aircraft",
+                    models.ForeignKey(
+                        on_delete=django.db.models.deletion.CASCADE,
+                        related_name="mel_items",
+                        to="aircraft.aircraft",
+                    ),
+                ),
             ],
         ),
         migrations.CreateModel(
-            name='MELHistory',
+            name="MELHistory",
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('old_status', models.CharField(max_length=20)),
-                ('new_status', models.CharField(max_length=20)),
-                ('note', models.TextField(blank=True)),
-                ('timestamp', models.DateTimeField(auto_now_add=True)),
-                ('changed_by', models.ForeignKey(null=True, on_delete=django.db.models.deletion.SET_NULL, to=settings.AUTH_USER_MODEL)),
-                ('mel_item', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='history', to='mel.melitem')),
+                (
+                    "id",
+                    models.BigAutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                ("old_status", models.CharField(max_length=20)),
+                ("new_status", models.CharField(max_length=20)),
+                ("note", models.TextField(blank=True)),
+                ("timestamp", models.DateTimeField(auto_now_add=True)),
+                (
+                    "changed_by",
+                    models.ForeignKey(
+                        null=True,
+                        on_delete=django.db.models.deletion.SET_NULL,
+                        to=settings.AUTH_USER_MODEL,
+                    ),
+                ),
+                (
+                    "mel_item",
+                    models.ForeignKey(
+                        on_delete=django.db.models.deletion.CASCADE,
+                        related_name="history",
+                        to="mel.melitem",
+                    ),
+                ),
             ],
         ),
     ]

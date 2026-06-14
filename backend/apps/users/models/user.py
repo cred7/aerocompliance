@@ -17,7 +17,7 @@ class User(AbstractUser):
         "aircraft.Aircraft",
         related_name="assigned_users",
         blank=True,
-        help_text="Aircraft this user is responsible for"
+        help_text="Aircraft this user is responsible for",
     )
 
     def __str__(self):

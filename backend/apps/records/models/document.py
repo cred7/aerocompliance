@@ -24,8 +24,7 @@ class Document(models.Model):
 
     type = models.CharField(max_length=30, choices=Type.choices)
 
-    file = models.FileField(
-        upload_to="aircraft_documents/", null=True, blank=True)
+    file = models.FileField(upload_to="aircraft_documents/", null=True, blank=True)
 
     uploaded_by = models.ForeignKey(
         settings.AUTH_USER_MODEL,

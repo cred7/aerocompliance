@@ -6,14 +6,19 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('aircraft', '0001_initial'),
-        ('users', '0001_initial'),
+        ("aircraft", "0001_initial"),
+        ("users", "0001_initial"),
     ]
 
     operations = [
         migrations.AddField(
-            model_name='user',
-            name='assigned_aircraft',
-            field=models.ManyToManyField(blank=True, help_text='Aircraft this user is responsible for', related_name='assigned_users', to='aircraft.aircraft'),
+            model_name="user",
+            name="assigned_aircraft",
+            field=models.ManyToManyField(
+                blank=True,
+                help_text="Aircraft this user is responsible for",
+                related_name="assigned_users",
+                to="aircraft.aircraft",
+            ),
         ),
     ]

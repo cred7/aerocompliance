@@ -14,7 +14,8 @@ class AircraftService:
             raise ValueError("User must be provided for audit logging.")
         aircraft = Aircraft.objects.create(**validated_data)
         logging.info(
-            f"Aircraft created with ID: {aircraft.id} and Tail Number: {aircraft.tail_number} by User: {user.username}")
+            f"Aircraft created with ID: {aircraft.id} and Tail Number: {aircraft.tail_number} by User: {user.username}"
+        )
 
         AuditService.log_create(
             user=user,
@@ -33,7 +34,8 @@ class AircraftService:
             raise ValueError("User must be provided for audit logging.")
 
         logging.info(
-            f"Aircraft updated with ID: {instance.id} and Tail Number: {instance.tail_number} by User: {user.username}")
+            f"Aircraft updated with ID: {instance.id} and Tail Number: {instance.tail_number} by User: {user.username}"
+        )
         before = {
             "tail_number": instance.tail_number,
             "status": instance.status,
@@ -72,7 +74,8 @@ class AircraftService:
         instance.delete()
 
         logging.info(
-            f"Aircraft deleted with ID: {instance.id} and Tail Number: {instance.tail_number} by User: {user.username}")
+            f"Aircraft deleted with ID: {instance.id} and Tail Number: {instance.tail_number} by User: {user.username}"
+        )
 
         AuditService.log_delete(
             user=user,

@@ -6,10 +6,7 @@ class ADSchedulingService:
     @staticmethod
     def update_all_statuses():
 
-        compliances = ADCompliance.objects.select_related(
-            "ad",
-            "aircraft"
-        )
+        compliances = ADCompliance.objects.select_related("ad", "aircraft")
 
         for item in compliances:
             item.status = item.status  # placeholder for future engine

@@ -30,21 +30,21 @@ class AircraftViewSet(viewsets.ModelViewSet):
         """Optimize queryset based on action"""
         queryset = super().get_queryset()
 
-        if self.action == 'retrieve' or self.action == 'aircraft_detail':
+        if self.action == "retrieve" or self.action == "aircraft_detail":
             # Heavy optimization for detail views
             queryset = queryset.prefetch_related(
-                'mel_items',
-                'ad_compliances',
-                'maintenance_tasks',
-                'documents',
-                'audit_logs',
+                "mel_items",
+                "ad_compliances",
+                "maintenance_tasks",
+                "documents",
+                "audit_logs",
             )
 
         return queryset
 
     def get_serializer_class(self):
         """Use detail serializer for detail views"""
-        if self.action == 'retrieve' or self.action == 'aircraft_detail':
+        if self.action == "retrieve" or self.action == "aircraft_detail":
             return AircraftDetailSerializer
         return AircraftSerializer
 
@@ -67,7 +67,7 @@ class AircraftViewSet(viewsets.ModelViewSet):
             user=self.request.user,
         )
 
-    @action(detail=True, methods=['get'])
+    @action(detail=True, methods=["get"])
     def aircraft_detail(self, request, pk=None):
         """
         Get comprehensive aircraft operational detail.
@@ -86,7 +86,7 @@ class AircraftViewSet(viewsets.ModelViewSet):
         serializer = self.get_serializer(aircraft)
         return Response(serializer.data)
 
-    @action(detail=True, methods=['get'])
+    @action(detail=True, methods=["get"])
     def mel_items(self, request, pk=None):
         """Get all MEL items for this aircraft"""
         aircraft = self.get_object()
@@ -94,7 +94,7 @@ class AircraftViewSet(viewsets.ModelViewSet):
         serializer = MELItemListSerializer(mel_items, many=True)
         return Response(serializer.data)
 
-    @action(detail=True, methods=['get'])
+    @action(detail=True, methods=["get"])
     def ad_compliances(self, request, pk=None):
         """Get all AD compliances for this aircraft"""
         aircraft = self.get_object()
@@ -102,7 +102,7 @@ class AircraftViewSet(viewsets.ModelViewSet):
         serializer = ADComplianceListSerializer(ad_compliances, many=True)
         return Response(serializer.data)
 
-    @action(detail=True, methods=['get'])
+    @action(detail=True, methods=["get"])
     def maintenance_tasks(self, request, pk=None):
         """Get all maintenance tasks for this aircraft"""
         aircraft = self.get_object()
@@ -110,28 +110,28 @@ class AircraftViewSet(viewsets.ModelViewSet):
         serializer = MaintenanceTaskListSerializer(tasks, many=True)
         return Response(serializer.data)
 
-    @action(detail=True, methods=['get'])
+    @action(detail=True, methods=["get"])
     def compliance_snapshot(self, request, pk=None):
         """Get compliance snapshot for this aircraft"""
         aircraft = self.get_object()
-        snapshot = getattr(aircraft, 'compliance_snapshot', None)
+        snapshot = getattr(aircraft, "compliance_snapshot", None)
         if snapshot:
             serializer = ComplianceSnapshotListSerializer(snapshot)
             return Response(serializer.data)
         return Response({"detail": "No compliance snapshot available"}, status=404)
 
-    @action(detail=True, methods=['get'])
+    @action(detail=True, methods=["get"])
     def documents(self, request, pk=None):
         """Get all documents for this aircraft"""
         aircraft = self.get_object()
-        documents = aircraft.documents.all().order_by('-uploaded_at')
+        documents = aircraft.documents.all().order_by("-uploaded_at")
         serializer = DocumentListSerializer(documents, many=True)
         return Response(serializer.data)
 
-    @action(detail=True, methods=['get'])
+    @action(detail=True, methods=["get"])
     def audit_history(self, request, pk=None):
         """Get audit history for this aircraft (last 50 entries)"""
         aircraft = self.get_object()
-        audit_logs = aircraft.audit_logs.all().order_by('-timestamp')[:50]
+        audit_logs = aircraft.audit_logs.all().order_by("-timestamp")[:50]
         serializer = AuditLogListSerializer(audit_logs, many=True)
         return Response(serializer.data)

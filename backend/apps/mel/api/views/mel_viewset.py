@@ -9,17 +9,16 @@ from apps.audits.services.audit_service import AuditService
 
 
 class MELViewSet(viewsets.ModelViewSet):
-    queryset = MELItem.objects.select_related(
-        'aircraft').order_by('-reported_date')
+    queryset = MELItem.objects.select_related("aircraft").order_by("-reported_date")
     serializer_class = MELSerializer
     permission_classes = [IsAuthenticated]
 
     def get_queryset(self):
         """Filter by aircraft if provided"""
         queryset = super().get_queryset()
-        aircraft_id = self.request.query_params.get('aircraft_id')
-        status = self.request.query_params.get('status')
-        category = self.request.query_params.get('category')
+        aircraft_id = self.request.query_params.get("aircraft_id")
+        status = self.request.query_params.get("status")
+        category = self.request.query_params.get("category")
 
         if aircraft_id:
             queryset = queryset.filter(aircraft_id=aircraft_id)
@@ -32,8 +31,7 @@ class MELViewSet(viewsets.ModelViewSet):
 
     def perform_create(self, serializer):
         mel = MELService.create_mel(
-            data=serializer.validated_data,
-            user=self.request.user
+            data=serializer.validated_data, user=self.request.user
         )
 
         # Audit the creation
@@ -70,10 +68,10 @@ class MELViewSet(viewsets.ModelViewSet):
 
         return response
 
-    @action(detail=False, methods=['get'])
+    @action(detail=False, methods=["get"])
     def by_aircraft(self, request):
         """Get MEL items for a specific aircraft"""
-        aircraft_id = request.query_params.get('aircraft_id')
+        aircraft_id = request.query_params.get("aircraft_id")
         if not aircraft_id:
             return Response({"error": "aircraft_id parameter required"}, status=400)
 

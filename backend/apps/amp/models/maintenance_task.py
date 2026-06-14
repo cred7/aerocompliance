@@ -9,7 +9,9 @@ class MaintenanceTask(models.Model):
         CYCLES = "FC", "Flight Cycles"
         CALENDAR = "CAL", "Calendar"
 
-    title = models.CharField(max_length=255,)
+    title = models.CharField(
+        max_length=255,
+    )
     description = models.TextField(blank=True)
 
     aircraft = models.ForeignKey(
@@ -18,8 +20,7 @@ class MaintenanceTask(models.Model):
         related_name="maintenance_tasks",
     )
 
-    interval_type = models.CharField(
-        max_length=10, choices=IntervalType.choices)
+    interval_type = models.CharField(max_length=10, choices=IntervalType.choices)
 
     interval_value = models.FloatField()
     last_performed_fh = models.FloatField(default=0)

@@ -7,8 +7,7 @@ class MELEscalationService:
     def check_expired_items():
 
         expired = MELItem.objects.filter(
-            status__in=["OPEN", "IN_PROGRESS"],
-            remaining_hours__lte=0
+            status__in=["OPEN", "IN_PROGRESS"], remaining_hours__lte=0
         )
 
         for item in expired:
