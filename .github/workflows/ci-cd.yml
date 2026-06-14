@@ -134,6 +134,9 @@ jobs:
       - name: Show backend tags
         run: |
           echo "docker.io/${{ secrets.DOCKERHUB_USERNAME }}/${{ env.BACKEND_IMAGE_NAME }}:${{ github.sha }}"
+          echo "kanye west is the best "
+          echo "???????????????????"
+          echo "docker.io/${{ secrets.DOCKERHUB_USERNAME }}/${{ env.BACKEND_IMAGE_NAME }}:${{ github.sha }}"
           echo "docker.io/${{ secrets.DOCKERHUB_USERNAME }}/${{ env.BACKEND_IMAGE_NAME }}:latest"
 
       - name: Build and push backend image
