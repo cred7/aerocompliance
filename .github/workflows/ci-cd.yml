@@ -134,8 +134,9 @@ jobs:
       - name: Show backend tags
         run: |
           echo "docker.io/${{ secrets.DOCKERHUB_USERNAME }}/${{ env.BACKEND_IMAGE_NAME }}:${{ github.sha }}"
-          echo "kanye west is the best "
-          echo "???????????????????"
+          echo "docker.io/${{ secrets.DOCKERHUB_USERNAME }}/${{ env.BACKEND_IMAGE_NAME }}:latest"
+          echo "....................................."
+          echo "        ..................           "
           echo "docker.io/${{ secrets.DOCKERHUB_USERNAME }}/${{ env.BACKEND_IMAGE_NAME }}:${{ github.sha }}"
           echo "docker.io/${{ secrets.DOCKERHUB_USERNAME }}/${{ env.BACKEND_IMAGE_NAME }}:latest"
 
@@ -146,8 +147,8 @@ jobs:
           file: ./docker/backend/Dockerfile
           push: true
           tags: |
-            docker.io/${{ secrets.DOCKERHUB_USERNAME }}/${{ env.BACKEND_IMAGE_NAME }}:${{ github.sha }}
-            docker.io/${{ secrets.DOCKERHUB_USERNAME }}/${{ env.BACKEND_IMAGE_NAME }}:latest
+            docker.io/cred7/aerocompliance-backend:${{ github.sha }}
+            docker.io/cred7/aerocompliance-backend:latest
           cache-from: type=gha
           cache-to: type=gha,mode=max
 
@@ -158,8 +159,8 @@ jobs:
           file: ./docker/frontend/Dockerfile
           push: true
           tags: |
-            docker.io/${{ secrets.DOCKERHUB_USERNAME }}/${{ env.FRONTEND_IMAGE_NAME }}:${{ github.sha }}
-            docker.io/${{ secrets.DOCKERHUB_USERNAME }}/${{ env.FRONTEND_IMAGE_NAME }}:latest
+            docker.io/cred7/aerocompliance-frontend:${{ github.sha }}
+            docker.io/cred7/aerocompliance-frontend:latest
           cache-from: type=gha
           cache-to: type=gha,mode=max
 
