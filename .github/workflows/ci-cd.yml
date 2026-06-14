@@ -54,6 +54,7 @@ jobs:
           DEBUG: False
           SECRET_KEY: test-secret-key
           ALLOWED_HOSTS: localhost
+          DATABASE_URL: "sqlite:///:memory:"
         run: python manage.py test
 
   build-frontend:
