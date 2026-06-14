@@ -5,6 +5,7 @@ from apps.mel.models.mel_item import MELItem
 from apps.mel.api.serializers.mel_serializer import MELSerializer
 from apps.mel.services.mel_service import MELService
 from rest_framework.permissions import IsAuthenticated
+from apps.audits.services.audit_service import AuditService
 
 
 class MELViewSet(viewsets.ModelViewSet):
@@ -30,13 +31,44 @@ class MELViewSet(viewsets.ModelViewSet):
         return queryset
 
     def perform_create(self, serializer):
-        MELService.create_mel(
+        mel = MELService.create_mel(
             data=serializer.validated_data,
             user=self.request.user
         )
 
+        # Audit the creation
+        try:
+            AuditService.log_create(
+                user=self.request.user,
+                instance=mel,
+                after=self.get_serializer(mel).data,
+            )
+        except Exception:
+            # Don't break creation if audit logging fails; log silently
+            pass
+
     def perform_update(self, serializer):
         serializer.save()
+
+    def update(self, request, *args, **kwargs):
+        # Capture before state for audit logging
+        instance = self.get_object()
+        before_data = self.get_serializer(instance).data
+
+        response = super().update(request, *args, **kwargs)
+
+        try:
+            AuditService.log_update(
+                user=request.user,
+                instance=instance,
+                before_data=before_data,
+                after=response.data,
+            )
+        except Exception:
+            # Don't break the update flow if auditing fails
+            pass
+
+        return response
 
     @action(detail=False, methods=['get'])
     def by_aircraft(self, request):

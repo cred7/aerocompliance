@@ -1,4 +1,5 @@
 npm
+.azure
 .env
 dist
 coverage

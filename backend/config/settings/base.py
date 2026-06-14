@@ -26,6 +26,7 @@ CORS_ALLOWED_ORIGINS = [
     "http://localhost:3011",
     "http://127.0.0.1:3000",
     "http://localhost",
+    "http://localhost:8090",
 
 ]
 CORS_ALLOWED_ORIGINS += [f"http://{host}" for host in ALLOWED_HOSTS]

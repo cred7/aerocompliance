@@ -18,10 +18,13 @@ class AlertEngine:
 
         for item in expiring:
             NotificationService.create_notification(
-                user=item.aircraft.operator_id,  # replace with real user relation later
+                # Prefer attaching the aircraft instance and a user if available.
+                aircraft=item.aircraft,
+                user=getattr(item.aircraft, "operator_user", None) or getattr(
+                    item.aircraft, "operator_id", None),
                 title="MEL Expiry Warning",
                 message=f"{item.title} is expiring soon",
-                type="MEL"
+                type="MEL",
             )
 
     @staticmethod
@@ -32,10 +35,10 @@ class AlertEngine:
                 logger.info(
                     f" creating AMP alert for {aircraft.tail_number} with {aircraft.total_flight_hours} flight hours")
                 NotificationService.create_notification(
-                    # user=user,
+                    aircraft=aircraft,
                     title="AMP Alert",
                     message=f"{aircraft.tail_number} approaching maintenance threshold",
-                    type="AMP"
+                    type="AMP",
                 )
                 logger.info(
                     f" created AMP alert for {aircraft.tail_number} with {aircraft.total_flight_hours} flight hours")
@@ -46,8 +49,8 @@ class AlertEngine:
         for aircraft in Aircraft.objects.all():
             if aircraft.ad_compliances.filter(status="OVERDUE").exists():
                 NotificationService.create_notification(
-                    user=None,
+                    aircraft=aircraft,
                     title="AD OVERDUE",
                     message=f"{aircraft.tail_number} has overdue AD compliance",
-                    type="AD"
+                    type="AD",
                 )
